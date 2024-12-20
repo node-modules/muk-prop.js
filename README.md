@@ -1,18 +1,27 @@
-# muk-prop.js
+# @cnpmjs/muk-prop
 
-[![Build Status](https://secure.travis-ci.org/fent/muk-prop.js.svg)](http://travis-ci.org/fent/muk-prop.js)
-[![Dependency Status](https://david-dm.org/fent/muk-prop.js.svg)](https://david-dm.org/fent/muk-prop.js)
-[![codecov](https://codecov.io/gh/fent/muk-prop.js/branch/master/graph/badge.svg)](https://codecov.io/gh/fent/muk-prop.js)
+[![NPM version][npm-image]][npm-url]
+[![Node.js CI](https://github.com/node-modules/muk-prop.js/actions/workflows/nodejs.yml/badge.svg)](https://github.com/node-modules/muk-prop.js/actions/workflows/nodejs.yml)
+[![Test coverage][codecov-image]][codecov-url]
+[![npm download][download-image]][download-url]
+[![Node.js Version](https://img.shields.io/node/v/@cnpmjs/muk-prop.svg?style=flat)](https://nodejs.org/en/download/)
+
+[npm-image]: https://img.shields.io/npm/v/@cnpmjs/muk-prop.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/@cnpmjs/muk-prop
+[codecov-image]: https://codecov.io/github/node-modules/muk-prop.js/coverage.svg?branch=master
+[codecov-url]: https://codecov.io/github/node-modules/muk-prop.js?branch=master
+[download-image]: https://img.shields.io/npm/dm/@cnpmjs/muk-prop.svg?style=flat-square
+[download-url]: https://npmjs.org/package/@cnpmjs/muk-prop
 
 ![muk](muk.gif)
 
-# Usage
+## Usage
 
 Object method mocking.
 
 ```js
 const fs = require('fs');
-const muk = require('muk-prop');
+const { muk } = require('@cnpmjs/muk-prop');
 
 muk(fs, 'readFile', (path, callback) => {
   process.nextTick(callback.bind(null, null, 'file contents here'));
@@ -22,7 +31,7 @@ muk(fs, 'readFile', (path, callback) => {
 Object props mocking with setter/getter.
 
 ```js
-const muk = require('muk-prop');
+const { muk } = require('@cnpmjs/muk-prop');
 
 const obj = { _a: 1 };
 muk(obj, 'a', {
@@ -50,15 +59,22 @@ fs.readFile(file, (err, data) => {
 });
 ```
 
+## Install
 
-# Install
+```bash
+npm install @cnpmjs/muk-prop
+```
 
-    npm install muk-prop
+## Tests
 
-
-# Tests
 Tests are written with [mocha](https://mochajs.org)
 
 ```bash
 npm test
 ```
+
+## Contributors
+
+[![Contributors](https://contrib.rocks/image?repo=node-modules/muk-prop.js)](https://github.com/node-modules/muk-prop.js/graphs/contributors)
+
+Made with [contributors-img](https://contrib.rocks).

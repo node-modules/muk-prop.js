@@ -1,23 +1,24 @@
-'use strict';
-
 // Keep track of mocks
-let mocks = [];
-const cache = new Map();
+export interface MockItem {
+  obj: any;
+  key: string;
+  descriptor: PropertyDescriptor;
+  hasOwnProperty: boolean;
+}
 
+let mocks: MockItem[] = [];
+
+const cache = new Map<any, Set<any>>();
 
 /**
  * Mocks a value of an object.
- *
- * @param {Object} obj
- * @param {string} key
- * @param {!Function|Object} value
  */
-const method = module.exports = (obj, key, value) => {
-  const hasOwnProperty = Object.prototype.hasOwnProperty.call(obj, key);
+export function mock(obj: any, key: string, value?: any) {
+  const hasOwnProperty = Object.hasOwn(obj, key);
   mocks.push({
     obj,
     key,
-    descriptor: Object.getOwnPropertyDescriptor(obj, key),
+    descriptor: Object.getOwnPropertyDescriptor(obj, key)!,
     // Make sure the key exists on object not the prototype
     hasOwnProperty,
   });
@@ -35,7 +36,7 @@ const method = module.exports = (obj, key, value) => {
   }
   flag.add(key);
 
-  const descriptor = {
+  const descriptor: PropertyDescriptor = {
     configurable: true,
     enumerable: true,
   };
@@ -51,14 +52,17 @@ const method = module.exports = (obj, key, value) => {
   }
 
   Object.defineProperty(obj, key, descriptor);
-};
+}
+
+// alias to mock
+export const muk = mock;
 
 /**
  * Restore all mocks
  */
-method.restore = () => {
+export function restore() {
   for (let i = mocks.length - 1; i >= 0; i--) {
-    let m = mocks[i];
+    const m = mocks[i];
     if (!m.hasOwnProperty) {
       // Delete the mock key, use key on the prototype
       delete m.obj[m.key];
@@ -69,9 +73,9 @@ method.restore = () => {
   }
   mocks = [];
   cache.clear();
-};
+}
 
-method.isMocked = (obj, key) => {
-  let flag = cache.get(obj);
+export function isMocked(obj: any, key: string) {
+  const flag = cache.get(obj);
   return flag ? flag.has(key) : false;
-};
+}
