@@ -46,13 +46,15 @@ console.log(obj.a); // 4
 Check if member has been mocked.
 
 ```js
-muk.isMocked(fs, 'readFile'); // true
+const { isMocked } = require('@cnpmjs/muk-prop');
+
+isMocked(fs, 'readFile'); // true
 ```
 
 Restore all mocked methods/props after tests.
 
 ```js
-muk.restore();
+const { restore } = require('@cnpmjs/muk-prop');
 
 fs.readFile(file, (err, data) => {
   // will actually read from `file`
