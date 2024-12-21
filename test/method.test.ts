@@ -72,9 +72,12 @@ describe('Mock methods', () => {
 });
 
 describe('Mock property', () => {
+  const fooSymbol = Symbol('foo');
   const config = {
     enableCache: true,
     delay: 10,
+    [fooSymbol]: 'bar',
+    1: 'one',
   };
 
   const plainObj = Object.create(null);
@@ -87,6 +90,24 @@ describe('Mock property', () => {
   it('Should mock plain object successfully', () => {
     muk(plainObj, 'testKey', 'mockValue');
     assert.equal(plainObj.testKey, 'mockValue', 'testKey is mockValue');
+  });
+
+  it('Should mock Symbol property successfully', () => {
+    muk(config, fooSymbol, 'mockValue');
+    assert.equal(config[fooSymbol], 'mockValue', 'fooSymbol is mockValue');
+    assert.equal(isMocked(config, fooSymbol), true, 'fooSymbol is mocked');
+    restore();
+    assert.equal(config[fooSymbol], 'bar', 'fooSymbol is bar');
+    assert.equal(isMocked(config, fooSymbol), false, 'fooSymbol is not mocked');
+  });
+
+  it('Should mock number property successfully', () => {
+    muk(config, 1, 'mockValue');
+    assert.equal(config[1], 'mockValue', '1 is mockValue');
+    assert.equal(isMocked(config, 1), true, '1 is mocked');
+    restore();
+    assert.equal(config[1], 'one', '1 is one');
+    assert.equal(isMocked(config, 1), false, '1 is not mocked');
   });
 
   it('Should alias mock method work', () => {
@@ -116,10 +137,10 @@ describe('Mock property', () => {
     muk(process.env, 'HOME', '/mockhome');
     muk(config, 'notExistProp', 'value');
     muk(process.env, 'notExistProp', 0);
-    assert.deepEqual(Object.keys(config), [ 'enableCache', 'delay', 'notExistProp' ]);
+    assert.deepEqual(Object.keys(config), [ '1', 'enableCache', 'delay', 'notExistProp' ]);
 
     restore();
-    assert.deepEqual(Object.keys(config), [ 'enableCache', 'delay' ]);
+    assert.deepEqual(Object.keys(config), [ '1', 'enableCache', 'delay' ]);
     assert.equal(config.enableCache, true, 'enableCache is true');
     assert.equal(config.delay, 10, 'delay is 10');
     assert.equal(process.env.HOME, home, 'process.env.HOME is ' + home);

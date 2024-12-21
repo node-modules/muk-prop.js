@@ -1,7 +1,7 @@
 // Keep track of mocks
 export interface MockItem {
   obj: any;
-  key: string;
+  key: PropertyKey;
   descriptor: PropertyDescriptor;
   hasOwnProperty: boolean;
 }
@@ -13,7 +13,7 @@ const cache = new Map<any, Set<any>>();
 /**
  * Mocks a value of an object.
  */
-export function mock(obj: any, key: string, value?: any) {
+export function mock(obj: any, key: PropertyKey, value?: any) {
   const hasOwnProperty = Object.hasOwn(obj, key);
   mocks.push({
     obj,
@@ -75,7 +75,7 @@ export function restore() {
   cache.clear();
 }
 
-export function isMocked(obj: any, key: string) {
+export function isMocked(obj: any, key: PropertyKey) {
   const flag = cache.get(obj);
   return flag ? flag.has(key) : false;
 }
