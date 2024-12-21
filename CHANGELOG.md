@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/node-modules/muk-prop.js/compare/v1.0.0...v1.1.0) (2024-12-21)
+
+
+### Features
+
+* mock property type support symbol and number ([#3](https://github.com/node-modules/muk-prop.js/issues/3)) ([79bf8af](https://github.com/node-modules/muk-prop.js/commit/79bf8afafc55d11ee637b366f752ea0d5c1bca09))
+
 ## 1.0.0 (2024-12-20)
 
 
